@@ -1,0 +1,22 @@
+Function getUniquesCol(ByRef ws As Worksheet, ByVal col As String) As String()
+
+' Funcion que devulve los elementos unicos en una columna, en un array. Recibe Hoja para medir y la columna para encontrar.
+' Para que funcione correctamente la tabla debe estar conectada y partir en la primera columna, sino reemplazar el valor
+' de "starting_cell"
+
+    Dim tmp As String
+    Dim starting_cell as String: starting_cell = "A1"
+
+    If ws.AutoFilterMode = True Then ws.AutoFilterMode = False
+    
+    For i = 2 To ws.Range(starting_cell).CurrentRegion.Rows.Count
+        If (ws.Range(col & i) <> "") And (InStr(tmp, ws.Range(col & i)) = 0) Then
+            tmp = tmp & ws.Range(col & i) & "|"
+        End If
+    Next i
+
+    If Len(tmp) > 0 Then tmp = Left(tmp, Len(tmp) - 1)
+
+    getUniquesCol = Split(tmp, "|")
+
+    End Function
