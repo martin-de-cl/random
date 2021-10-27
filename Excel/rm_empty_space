@@ -1,0 +1,15 @@
+' Pequeña funcion que remueve los espacios de una cadena de caracteres en una celda
+
+Private Function fix_trailing_chars(ByVal cell_value As String) As String
+
+    Dim trimmed_string As String
+
+        If InStr(cell_value, " ") <> 0 Then
+            trimmed_string = Trim(cell_value)
+        Else
+            trimmed_string = cell_value
+        End If
+    
+    fix_trailing_chars = trimmed_string
+
+End Function
