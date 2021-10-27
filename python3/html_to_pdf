@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+
+import pdfkit
+import urllib.request
+
+from bs4 import BeautifulSoup
+
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException, NoSuchFrameException, StaleElementReferenceException
+
+# Codigo parcialmente funcional!
+#
+# Puede crear un PDF de una paginaweb, con todos los detalles de forma automatizada.
+#
+# Autor Martin Pimentel
+# Fecha 2018_06_12
+# Licencia BSD
+#
+
+
+class webPDF()
+    
+    def __init__(self, dlPath:str='~/'):
+
+        self.url        = ''
+        ffp = webdriver.FirefoxProfile()
+        ffp.set_preference("browser.download.folderList", 2)
+        ffp.set_preference("browser.download.manager.showWhenStarting", False)
+        ffp.set_preference("browser.download.dir", os.path.abspath(os.path.dirname(__file__)+dlPath))
+        ffp.set_preference("browser.helperApps.neverAsk.saveToDisk",
+                           "application/octet-stream, application/octet-stream;filename=*.txt")
+        self.driver = webdriver.Firefox(ffp)
+    
+    
+    def do_pdf():
+        self.driver.get(self.url)
+        self.driver.maximize_window()
+        self.make_pdf_from_html('default')
+        self.driver.quit()
+        
+    def make_pdf_from_html(self, name:str) -> None:
+            ls_images = []
+            source_string = self.driver.page_source
+            Bsoup = BeautifulSoup(source_string, 'lxml')
+
+            for img in self.driver.find_elements_by_xpath('//img'):
+                urllib.request.urlretrieve(
+                    img.get_attribute('src'), './stdout/tmp/'+ img.get_attribute('src').rsplit('/', maxsplit=1)[1])
+                ls_images.append(str('./' + img.get_attribute('src').rsplit('/', maxsplit=1)[1]))
+
+            for img, new_src in zip(Bsoup.find_all('img'), ls_images):
+                img['src'] = new_src
+
+            new_source_string = str(Bsoup)
+
+            with open('./stdout/tmp/tmp_site.html','w') as file:
+                file.write(new_source_string)
+
+            pdfkit.from_file('./stdout/tmp/tmp_site.html', './stdout/tmp/'+name+'.pdf')
