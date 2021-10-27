@@ -1,0 +1,12 @@
+' Pequeña funcion para ver si un WorkBook existe. Se deberia usar dentro de un libro que reside en su propio directorio,
+' como la estructura de un programa.
+
+Private Function check_file_existence(ByVal full_path As String, ByVal full_book_name As String) As Boolean
+
+    If Dir(full_path & full_book_name) <> "" Then
+        check_file_existence = True
+    Else
+        check_file_existence = False
+    End If
+
+End Function
