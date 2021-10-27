@@ -1,0 +1,20 @@
+' Funcion que abre un dialogo de seleccion de archivos
+
+
+Function get_file_location() As String
+
+Dim fldr As FileDialog
+Dim sItem As String
+Set fldr = Application.FileDialog(msoFileDialogFilePicker)
+With fldr
+    .Title = "Selecciona un archivo"
+    .AllowMultiSelect = False                                 ' Solo queremos un archivo
+    .InitialFileName = Application.DefaultFilePath
+    If .Show <> -1 Then GoTo NextCode                         ' Si no se selecciona un archivo
+    sItem = .SelectedItems(1)
+End With
+
+NextCode:
+    get_file_location = sItem
+    Set fldr = Nothing
+End Function
