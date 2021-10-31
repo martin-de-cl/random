@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+
+# Objeto para automatizar la conversion de archivos CSV a Xlsx, para Excel o OpenOffice
+# Utiliza la variable LOCALE para definir los decimales, etc.
+#
+# Autor: Martin Pimentel Tarbuskovic
+# Fecha: 2019_10_30
+# Licencia: BSD
+
+import csv
+import openpyxl
+
+from os.path import abspath, join as pjoin
+from locale import *
+
+setlocale(LC_NUMERIC,'')
+
+class Csv2Xls():
+    def __init__(self, delimitador:str=';'):
+        self.delimitador = delimitador
+
+    def process_csv(self, path_to_csv:str, path_to_xls:str='') -> 'Xlsx':
+        wb = openpyxl.Workbook()
+        ws = wb.active  
+        with open(self._solve_path(path_to_csv)) as file:
+            reader = csv.reader(file, delimiter=self.delimitador)
+            row_index = 1
+            for row in reader:
+                if row_index > 1:
+                    try:
+                        row[3] = atof(row[3])
+                    except:
+                        if row[3] is None:
+                            row[3] = 0
+                        elif '.' in row[3]:
+                            row[3].replace('.','')
+                ws.append(row)
+                row_index += 1
+        wb.save(self._solve_path(path_to_xls))
+        
+    def _solve_path(self, path) -> str:
+        if path is '':
+            return abspath(pjoin(__file__), '/default.xlsx')
+        else:
+            return abspath(path)
