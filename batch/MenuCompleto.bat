@@ -5,12 +5,12 @@ title Menu Completo
 ::
 :: Menu completo para trabajo en batches
 ::
-:: @Autor	  : Martin Pimentel
-:: @Fecha	  : 2021_11_08
+:: @Autor     : Martin Pimentel
+:: @Fecha     : 2021_11_08
 :: @Licensia  : BSD
 ::
 
-:: Aqui obtenemos el path de ese batch, asi podemos anidar carpetas
+:: Aqui obtenemos el path de este batch, asi podemos anidar carpetas
 :: en los que almacenar los recursos que necesitamos acceder.
 ::
 :: El objetivo de outerPath es el demostrar que podemos usar recursos
@@ -18,7 +18,7 @@ title Menu Completo
 
 SET rootPath=%~dp0
 SET outerPath=%~dp0..\
-SET resPath=%rooPath%\res
+SET resPath=%rootPath%\res
 
 :: Chequeo de parametros de linea de comandos simple
 
@@ -96,6 +96,8 @@ goto inicio
 	color 0D
         :: Aqui ejecutar el script que deberia estar en .\res
         :: python .\res\script.py
+	:: o usando expasion de variables
+	:: python %resPath%
         ::
         color 08
     echo.
@@ -305,7 +307,7 @@ goto inicio
     echo.
     echo    Hora de inicio - %time%
     echo.
-    ) > log_captura_de_saldos.txt 2>&1
+    ) > logm.txt 2>&1
     pause
     goto salir
 :salir
