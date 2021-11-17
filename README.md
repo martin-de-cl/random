@@ -1,7 +1,6 @@
 # random
 
-Este repositorio tiene como proposito el deposito de herramientas que he creado con el tiempo, son simples y genericas.
+Este repositorio es una coleccion de aplicaciones simples que he escrito en el tiempo.
+Pueden ser y modificadas de forma gratuita, haciendo mencion de su autor.
 
-Pueden hacer uso de estas herramientas y modificarlas como les gusten de forma gratuita, pero a cambio pido mantener alguna referencia a la fuente.
-
-Saludos.
+Adiós.
